@@ -29,7 +29,7 @@ Tecnologias utilizadas:
   - [ ] Sortear amigos secretos
   - [ ] Buscar grupos por usuário logado
 
-### **Responsável 3 (Envio de Emails):**
+### **Enzo Queiroz (Envio de Emails):**
 - [ ] Criar conta no Resend
 - [ ] Integrar Resend com Next.js
 - [ ] Criar template de email com nome do amigo secreto
