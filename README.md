@@ -9,6 +9,10 @@ Tecnologias utilizadas:
 - [TailwindCSS](https://tailwindcss.com/)
 - [shadcn/ui](https://ui.shadcn.com/)
 
+Para evitar problemas com o Tailwind use esses plugins:
+- Use the PostCSS plugin
+- Use the Tailwind intelliSense plugin
+
 ---
 
 ## 🔧 FASE 1 – Setup e Infraestrutura
