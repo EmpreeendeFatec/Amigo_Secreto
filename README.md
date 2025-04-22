@@ -89,4 +89,4 @@ Para evitar problemas com o Tailwind use esses plugins:
 
 ---
 
-> Projeto colaborativo entre Enzo Queiroz, Lucas Sanches e Paulo Araújo 🚀
+> Projeto colaborativo entre Enzo Queiroz, Lucas Sanches, Paulo Araújo e demais membros... 🚀
