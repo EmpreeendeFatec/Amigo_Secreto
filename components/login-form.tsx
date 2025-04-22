@@ -25,7 +25,7 @@ export default function LoginForm(){
                 <CardDescription>Digite seu email para receber um link de login</CardDescription>
             </CardHeader>
             <CardContent>
-                <form action="">
+                <form action={formAction}>
                     <div className="grid gap-2">
                         <Label htmlFor="email">Email</Label>
                         <Input id="email" type="email" name="email" placeholder="maria@gmail.com" required/>
