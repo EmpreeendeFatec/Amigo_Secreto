@@ -1,19 +1,23 @@
+import Header from "@/components/header";
+import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
+
 export default async function AppLayout({
   children,
-}: {
-  children: React.ReactNode
-}) {
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
 
 const supabase = await createClient();
-const {data, error} = await supabase.auth.getSession();
+const {data, error} = await supabase.auth.getUser();
 
 if (error || !data?.user) {
-    redirect('/auth/login')
+    redirect("/login"); 
 }
   return (
     <div>
         <Header/>
         {children}
     </div>
-  )
+  );
 }
