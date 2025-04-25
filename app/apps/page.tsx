@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation'
 
 export default async function AppPage() {
-  redirect('/apps/grupos');
+  redirect('/apps/grupos/novo');
   
 }
