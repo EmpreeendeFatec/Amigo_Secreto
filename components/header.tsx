@@ -1,5 +1,6 @@
-import { Gift } from "lucide-react";
+import { Gift, UserRound } from "lucide-react";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default function Header(){
     return(
@@ -15,6 +16,15 @@ export default function Header(){
                             </span>
                         </span>
                     </Link>
+                    <nav className=" flex items-center space-x-4">
+                        <Link href="apps/grupos" className="text-foreground text-sm flex gap-2 items-center">
+                        <UserRound className="w-4 h-4"/>
+                        Meus grupos
+                        </Link>
+                        <Button asChild variant="outline">
+                            <Link href="apps/grupos/novo">Novo Grupo</Link>
+                        </Button>
+                    </nav>
                 </div>
             </div>
         </header>
