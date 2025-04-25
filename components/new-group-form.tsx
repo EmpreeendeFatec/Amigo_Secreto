@@ -1,6 +1,7 @@
 'use client'
 import { useState } from "react";
-import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
 
 interface Participant{
     name: string,
@@ -24,6 +25,15 @@ export default function NewGroupForm({loggedUser} : {loggedUser: {email: string}
                 <CardTitle>Novo Grupo</CardTitle>
                     <CardDescription>Convide seus amigos para participar do grupo</CardDescription>
             </CardHeader>
+            <form action="">
+                <CardContent className="space-y-4">
+                    <div className="space-y-2">
+                        <Label>
+
+                        </Label>
+                    </div>
+                </CardContent>
+            </form>
         </Card>
     )
 }
