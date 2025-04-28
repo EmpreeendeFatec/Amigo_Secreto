@@ -1,11 +1,12 @@
 'use client'
-import { useEffect, useState } from "react";
+import { useEffect, useState, useActionState } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Trash2, Mail, Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { CreateGroupState } from "@/app/apps/grupos/novo/action";
+
 
 interface Participant {
     name: string,
@@ -24,11 +25,11 @@ export default function NewGroupForm({ loggedUser }: { loggedUser: { email: stri
 
     const [groupname, setGroupname] = useState("");
 
-    const [state, formAction, pending] = useActionState<CreateGroupState, FormData>(createGroup{
+    const [state, formAction, pending] = useActionState<CreateGroupState, FormData>(createGroup,{
         
         success: null,
-        message: ""
-    })
+        message: "",
+    });
     
 
     function updateParticipant(index: number, field: keyof Participant, value: string) {
@@ -139,4 +140,8 @@ export default function NewGroupForm({ loggedUser }: { loggedUser: { email: stri
             </form>
         </Card>
     )
+}
+
+function useToast(): { toast: any; } {
+    throw new Error("Function not implemented.");
 }
