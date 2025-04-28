@@ -1,9 +1,10 @@
 'use client'
 import { useState } from "react";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Trash2 } from "lucide-react";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
+import { Trash2, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
 
 interface Participant {
     name: string,
@@ -29,6 +30,10 @@ export default function NewGroupForm({ loggedUser }: { loggedUser: { email: stri
     }
     function removeParticipant(index: number) {
         setParticipants(participants.filter((_, i) => i !== index));
+    }
+
+    function addParticipant() {
+        setParticipants(participants.concat ({ name: "", email: "" }));
     }
 
     return (
@@ -97,6 +102,21 @@ export default function NewGroupForm({ loggedUser }: { loggedUser: { email: stri
                         </div>
                     ))}
                 </CardContent>
+                <Separator className="my-4"/>
+                <CardFooter className="flex flex-col md:flex-row justify-between space-y-4 md:space-y-0">
+                    <Button 
+                    type="button"
+                    variant="outline"
+                    onClick={addParticipant}
+                    className="w-full md:w-auto hover:bg-gray-700 cursor-pointer">
+                        Adicionar um amigo
+                    </Button>
+                    <Button 
+                    type="submit"
+                    className="w-full md:w-auto flex items-center space-x-2 bg-red-700 hover:bg-red-800 text-white cursor-pointer">
+                        <Mail className="w-3 h-3"/> Criar grupo e enviar os emails
+                    </Button>
+                </CardFooter>
             </form>
         </Card>
     )
