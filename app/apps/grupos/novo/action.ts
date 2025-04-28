@@ -1,7 +1,8 @@
 'use server';//roda no lado do servidor
 
 import { createClient } from "@/utils/supabase/server";
-import { group } from "console";
+import { redirect } from "next/navigation";
+
 
 export type CreateGroupState = {
     success: boolean | null;
@@ -56,4 +57,48 @@ export async function createGroup(_previousState: CreateGroupState, formData: Fo
     }
    };
 
+   const drawParticipants = drawGroup(createdParticipants);
+
+   const {error: drawError} = await supabase.from("participants").upsert(drawParticipants); //Da um update no BD
+
+   if(drawError){
+    return {
+        success: false,
+        message: "Erro ao sortear os participantes",
+    }
+   };
+
+   redirect(`apps/grupos/${newGroup.id}`); //redireciona para a página do grupo criado
+
 }
+
+   type Participant={
+    id: string;
+    group_id: string;
+    name: string;
+    email: string;
+    assigned_to: string | null;
+    created_at: string;
+   }
+   function drawGroup(participants: Participant[]){
+    
+    const selectedParticipants: string [] = [];
+
+    return participants.map((participant) => { //não deixa as pessoas se repetirem
+
+        const availableParticipants = participants.filter((p) => 
+            p.id !== participant.id && !selectedParticipants.includes(p.id)
+        );
+
+        const assignedParticipant = availableParticipants[Math.floor(Math.random() * availableParticipants.length)];
+        //sortea dentro do array avaliableParticipants uma pessoa aleatória
+
+        selectedParticipants.push(assignedParticipant.id); //Seleciona a pessoa sorteada
+
+        return{//devolvo o participante que ele retirou
+            ...participant,
+            assigned_to: assignedParticipant.id,
+        };
+    });
+    
+   }
