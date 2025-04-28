@@ -39,8 +39,9 @@ export default function NewGroupForm({ loggedUser }: { loggedUser: { email: stri
             <form action="">
                 <CardContent className="space-y-4">
                     <div className="space-y-2">
-                        <label htmlFor="group-name">Nome do Grupo</label>
+                        <label htmlFor="group-name">Nome do Grupo:</label>
                         <input
+                            className="ml-10"
                             id="group-name"
                             name="group-name"
                             value={groupname}
@@ -49,24 +50,24 @@ export default function NewGroupForm({ loggedUser }: { loggedUser: { email: stri
                             required
                         />
                     </div>
-                    <h2 className="!mt-12">Participantes</h2>
+                    <h2 className="!mt-12">Participantes:</h2>
                     {participants.map((participant, index) => (
                         <div key={index} className="flex flex-col md:flex-row items-end space-y-4 md:space-y-0 md:space-x-4">
                             <div className="flex-grow space-y-2 w-full">
-                                <label htmlFor={`name-${index}`}>Nome</label>
+                                <label htmlFor={`name-${index}`}>Nome:</label>
                                 <input
                                     id={`name-${index}`}
                                     name="name"
                                     value={participant.name}
                                     onChange={(e) => updateParticipants(index, "name", e.target.value)}
                                     placeholder="Digite o nome da pessoa"
-                                    className="readonly:text-muted-foreground"
+                                    className="readonly:text-muted-foreground ml-4"
                                     required
                                 />
                             </div>
 
                             <div className="flex-grow space-y-2 w-full">
-                                <label htmlFor={`email-${index}`}>Email</label>
+                                <label htmlFor={`email-${index}`}>Email:</label>
                                 <input
                                     id={`email-${index}`}
                                     name="email"
@@ -74,7 +75,7 @@ export default function NewGroupForm({ loggedUser }: { loggedUser: { email: stri
                                     value={participant.email}
                                     onChange={(e) => updateParticipants(index, "email", e.target.value)}
                                     placeholder="Digite o email da pessoa"
-                                    className="readonly:text-muted-foreground"
+                                    className="readonly:text-muted-foreground ml-4"
                                     readOnly={participant.email === loggedUser.email}
                                     required
                                 />
