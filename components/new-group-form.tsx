@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 interface Participant {
     name: string,
@@ -20,11 +21,11 @@ export default function NewGroupForm({ loggedUser }: { loggedUser: { email: stri
 
     const [groupname, setGroupname] = useState("");
 
-    function updateParticipants(index: number, field: keyof Participant, value: string) {
-        const updateParticipants = [...participants];
+    function updateParticipant(index: number, field: keyof Participant, value: string) {
+        const updateParticipants = [...participants];//gera uma cópia de participante
 
-        updateParticipants[index][field] = value;
-        setParticipants(updateParticipants);
+        updateParticipants[index][field] = value;//atualiza o valor do campo específico do participante
+        setParticipants(updateParticipants);//repassa a lista atualizada de participantes
     }
     function removeParticipant(index: number) {
         setParticipants(participants.filter((_, i) => i !== index));
@@ -40,14 +41,14 @@ export default function NewGroupForm({ loggedUser }: { loggedUser: { email: stri
                 <CardContent className="space-y-4">
                     <div className="space-y-2">
                         <label htmlFor="group-name">Nome do Grupo:</label>
-                        <input
-                            className="ml-10"
+                        <Input
                             id="group-name"
                             name="group-name"
                             value={groupname}
                             onChange={(e) => setGroupname(e.target.value)}
                             placeholder="Digite o nome do grupo"
                             required
+                            className="mt-3"
                         />
                     </div>
                     <h2 className="!mt-12">Participantes:</h2>
@@ -55,27 +56,27 @@ export default function NewGroupForm({ loggedUser }: { loggedUser: { email: stri
                         <div key={index} className="flex flex-col md:flex-row items-end space-y-4 md:space-y-0 md:space-x-4">
                             <div className="flex-grow space-y-2 w-full">
                                 <label htmlFor={`name-${index}`}>Nome:</label>
-                                <input
+                                <Input
                                     id={`name-${index}`}
                                     name="name"
                                     value={participant.name}
-                                    onChange={(e) => updateParticipants(index, "name", e.target.value)}
+                                    onChange={(e) => updateParticipant(index, "name", e.target.value)}
                                     placeholder="Digite o nome da pessoa"
-                                    className="readonly:text-muted-foreground ml-4"
+                                    className="readonly:text-muted-foreground mt-3"
                                     required
                                 />
                             </div>
 
                             <div className="flex-grow space-y-2 w-full">
                                 <label htmlFor={`email-${index}`}>Email:</label>
-                                <input
+                                <Input
                                     id={`email-${index}`}
                                     name="email"
                                     type="email"
                                     value={participant.email}
-                                    onChange={(e) => updateParticipants(index, "email", e.target.value)}
+                                    onChange={(e) => updateParticipant(index, "email", e.target.value)}
                                     placeholder="Digite o email da pessoa"
-                                    className="readonly:text-muted-foreground ml-4"
+                                    className="readonly:text-muted-foreground mt-3"
                                     readOnly={participant.email === loggedUser.email}
                                     required
                                 />
