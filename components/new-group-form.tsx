@@ -1,8 +1,10 @@
 'use client'
 import { useState } from "react";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Trash2 } from "lucide-react";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
+import { Trash2, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
 
 interface Participant {
     name: string,
@@ -20,14 +22,18 @@ export default function NewGroupForm({ loggedUser }: { loggedUser: { email: stri
 
     const [groupname, setGroupname] = useState("");
 
-    function updateParticipants(index: number, field: keyof Participant, value: string) {
-        const updateParticipants = [...participants];
+    function updateParticipant(index: number, field: keyof Participant, value: string) {
+        const updateParticipants = [...participants];//gera uma cópia de participante
 
-        updateParticipants[index][field] = value;
-        setParticipants(updateParticipants);
+        updateParticipants[index][field] = value;//atualiza o valor do campo específico do participante
+        setParticipants(updateParticipants);//repassa a lista atualizada de participantes
     }
     function removeParticipant(index: number) {
         setParticipants(participants.filter((_, i) => i !== index));
+    }
+
+    function addParticipant() {
+        setParticipants(participants.concat ({ name: "", email: "" }));
     }
 
     return (
@@ -39,42 +45,43 @@ export default function NewGroupForm({ loggedUser }: { loggedUser: { email: stri
             <form action="">
                 <CardContent className="space-y-4">
                     <div className="space-y-2">
-                        <label htmlFor="group-name">Nome do Grupo</label>
-                        <input
+                        <label htmlFor="group-name">Nome do Grupo:</label>
+                        <Input
                             id="group-name"
                             name="group-name"
                             value={groupname}
                             onChange={(e) => setGroupname(e.target.value)}
                             placeholder="Digite o nome do grupo"
                             required
+                            className="mt-3"
                         />
                     </div>
-                    <h2 className="!mt-12">Participantes</h2>
+                    <h2 className="!mt-12">Participantes:</h2>
                     {participants.map((participant, index) => (
                         <div key={index} className="flex flex-col md:flex-row items-end space-y-4 md:space-y-0 md:space-x-4">
                             <div className="flex-grow space-y-2 w-full">
-                                <label htmlFor={`name-${index}`}>Nome</label>
-                                <input
+                                <label htmlFor={`name-${index}`}>Nome:</label>
+                                <Input
                                     id={`name-${index}`}
                                     name="name"
                                     value={participant.name}
-                                    onChange={(e) => updateParticipants(index, "name", e.target.value)}
+                                    onChange={(e) => updateParticipant(index, "name", e.target.value)}
                                     placeholder="Digite o nome da pessoa"
-                                    className="readonly:text-muted-foreground"
+                                    className="readonly:text-muted-foreground mt-3"
                                     required
                                 />
                             </div>
 
                             <div className="flex-grow space-y-2 w-full">
-                                <label htmlFor={`email-${index}`}>Email</label>
-                                <input
+                                <label htmlFor={`email-${index}`}>Email:</label>
+                                <Input
                                     id={`email-${index}`}
                                     name="email"
                                     type="email"
                                     value={participant.email}
-                                    onChange={(e) => updateParticipants(index, "email", e.target.value)}
+                                    onChange={(e) => updateParticipant(index, "email", e.target.value)}
                                     placeholder="Digite o email da pessoa"
-                                    className="readonly:text-muted-foreground"
+                                    className="readonly:text-muted-foreground mt-3"
                                     readOnly={participant.email === loggedUser.email}
                                     required
                                 />
@@ -95,6 +102,21 @@ export default function NewGroupForm({ loggedUser }: { loggedUser: { email: stri
                         </div>
                     ))}
                 </CardContent>
+                <Separator className="my-4"/>
+                <CardFooter className="flex flex-col md:flex-row justify-between space-y-4 md:space-y-0">
+                    <Button 
+                    type="button"
+                    variant="outline"
+                    onClick={addParticipant}
+                    className="w-full md:w-auto hover:bg-gray-700 cursor-pointer">
+                        Adicionar um amigo
+                    </Button>
+                    <Button 
+                    type="submit"
+                    className="w-full md:w-auto flex items-center space-x-2 bg-red-700 hover:bg-red-800 text-white cursor-pointer">
+                        <Mail className="w-3 h-3"/> Criar grupo e enviar os emails
+                    </Button>
+                </CardFooter>
             </form>
         </Card>
     )
