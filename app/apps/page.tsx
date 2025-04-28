@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation'
 
-export default async function PrivatePage() {
-  redirect('/apps/grupos');
+export default async function AppPage() {
+  redirect('/apps/grupos/novo');
   
 }
