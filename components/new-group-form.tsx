@@ -1,5 +1,5 @@
 'use client'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Trash2, Mail, Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -14,6 +14,7 @@ interface Participant {
 
 export default function NewGroupForm({ loggedUser }: { loggedUser: { email: string } }) {
 
+    const {toast} = useToast();
     const [participants, setParticipants] = useState<Participant[]>([
         {
             name: "",
@@ -43,6 +44,15 @@ export default function NewGroupForm({ loggedUser }: { loggedUser: { email: stri
     function addParticipant() {
         setParticipants(participants.concat ({ name: "", email: "" }));
     }
+
+    useEffect(() => {
+        if(state.success === false) {
+            toast({
+                variant: "destructive",
+                description: state.message,
+            });
+        }
+    }, [state]);
 
     return (
         <Card className="w-full max-w-2xl mx-auto">
