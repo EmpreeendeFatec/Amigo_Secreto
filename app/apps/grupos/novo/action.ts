@@ -1,8 +1,9 @@
 'use server';//roda no lado do servidor
 
 import { createClient } from "@/utils/supabase/server";
+import { error } from "console";
 import { redirect } from "next/navigation";
-
+import { Resend } from "resend"; //importa a biblioteca de envio de email
 
 export type CreateGroupState = {
     success: boolean | null;
@@ -68,7 +69,16 @@ export async function createGroup(_previousState: CreateGroupState, formData: Fo
     }
    };
 
-   redirect(`apps/grupos/${newGroup.id}`); //redireciona para a página do grupo criado
+   const {error: errorResend} = await sendEmailGroup(drawParticipants, groupName as string);//envia o email para os participantes
+   
+   if(errorResend){
+    return {
+        success: false,
+        message: errorResend,
+    }
+   };
+
+   redirect(`/apps/grupos/${newGroup.id}`); //redireciona para a página do grupo criado
 
 }
 
@@ -101,4 +111,28 @@ export async function createGroup(_previousState: CreateGroupState, formData: Fo
         };
     });
     
+   }
+
+   async function sendEmailGroup(participants: Participant[], groupName: string) {
+
+    const resend = new Resend(process.env.RESEND_API_KEY); //chama a api do resend com a chave de autenticação
+    
+    try{
+        
+        await Promise.all(participants.map(participant => {
+            resend.emails.send({
+                from: "send@nexusjr.io",
+                to: participant.email,
+                subject: `Sorteio do amigo secreto - ${groupName}`,
+                html: `<p>Olá ${participant.name}, você foi sorteado para o amigo secreto de ${groupName}.<br/><br/>
+                 Você tirou <strong>${participants.find(p => p.id === participant.assigned_to)?.name}</strong></p>`,
+            })
+        }));
+        return {error: null}; //se não der erro, retorna null
+    }catch{
+        return {
+            error: "Erro ao enviar email",
+        };
+    }
+
    }
