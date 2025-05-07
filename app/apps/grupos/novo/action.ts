@@ -69,7 +69,7 @@ export async function createGroup(_previousState: CreateGroupState, formData: Fo
     }
    };
 
-   const {error: errorResend} = await sendEmailGroup(drawParticipants, groupName as string);//envia o email para os participantes
+   const {error: errorResend} = await sendEmailToParticipants(drawParticipants, groupName as string);//envia o email para os participantes
    
    if(errorResend){
     return {
@@ -113,7 +113,8 @@ export async function createGroup(_previousState: CreateGroupState, formData: Fo
     
    }
 
-   async function sendEmailGroup(participants: Participant[], groupName: string) {
+
+   async function sendEmailToParticipants (participants: Participant[], groupName: string) {
 
     const resend = new Resend(process.env.RESEND_API_KEY); //chama a api do resend com a chave de autenticação
     
