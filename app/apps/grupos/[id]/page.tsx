@@ -18,7 +18,7 @@ import { TextRevealCard, TextRevealCardTitle } from "@/components/ui/text-reveal
 import { createClient } from "@/utils/supabase/server";
 import { Separator } from "@radix-ui/react-separator";
 
-async function GrupoIdPage({ params }: { params: { id: string } }) {
+export default async function GrupoIdPage({ params, }: { params: Promise<{ id: string }>; }) {
   const supabase = await createClient();
   const { data: authUser } = await supabase.auth.getUser();
 
@@ -96,3 +96,4 @@ async function GrupoIdPage({ params }: { params: { id: string } }) {
     </main>
   );
 }
+
