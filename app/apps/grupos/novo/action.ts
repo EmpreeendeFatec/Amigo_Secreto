@@ -1,7 +1,7 @@
 'use server';//roda no lado do servidor
 
 import { createClient } from "@/utils/supabase/server";
-import { error } from "console";
+//import { error } from "console";
 import { redirect } from "next/navigation";
 import { Resend } from "resend"; //importa a biblioteca de envio de email
 
